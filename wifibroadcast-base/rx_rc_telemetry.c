@@ -369,8 +369,8 @@ void process_packet(monitor_interface_t *interface, int adapter_no, int serialpo
 	    outputbuffer[16]=(uint8_t)(rcdata->chan6>>8); checksum^=outputbuffer[16];
 	    outputbuffer[17]=(uint8_t)(rcdata->chan7&0xFF); checksum^=outputbuffer[17];
 	    outputbuffer[18]=(uint8_t)(rcdata->chan7>>8); checksum^=outputbuffer[18];
-	    outputbuffer[19]=(uint8_t)(rcdata->chan8&0xFF); checksum^=outputbuffer[19];
-	    outputbuffer[20]=(uint8_t)(rcdata->chan8>>8); checksum^=outputbuffer[20];
+	    outputbuffer[19]=(uint8_t)(rcdata->switches&0xFF); checksum^=outputbuffer[19]; // Overwrite 8th Axis with
+	    outputbuffer[20]=(uint8_t)(rcdata->switches>>8); checksum^=outputbuffer[20]; // Switches Button/Hat Data
 	    outputbuffer[21]=checksum; // checksum
 	    len = 22;
 	    break;
