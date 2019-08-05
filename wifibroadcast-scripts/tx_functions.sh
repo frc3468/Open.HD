@@ -259,8 +259,11 @@ function tx_function {
 #nice -n -9 raspivid -w $WIDTH -h $HEIGHT -fps $FPS -b $BITRATE -g $KEYFRAMERATE -t 0 $EXTRAPARAMS -o - | nice -n -9 /home/pi/wifibroadcast-base/tx_rawsock -p 0 -b $VIDEO_BLOCKS -r $VIDEO_FECS -f $VIDEO_BLOCKLENGTH -t $VIDEO_FRAMETYPE -d $VIDEO_WIFI_BITRATE -y 0 $NICS
 
 if [ "$IsAudioTransferEnabled" == "1" ]; then
-        /home/pi/RemoteSettings/Air/AudioCapture.sh &
-        /home/pi/RemoteSettings/Air/AudioTX.sh &
+		/home/pi/RemoteSettings/Air/AudioCapture.sh &
+		/home/pi/RemoteSettings/Air/AudioTX.sh &
+		amixer cset numid=3 $DefaultAudioOut
+		/home/pi/RemoteSettings/Air/AudioPlayback.sh &
+		/home/pi/RemoteSettings/Air/RxAudio.sh &
 fi
 
 if [ "$EncryptionOrRange" == "Encryption" ]; then
