@@ -214,17 +214,25 @@ static int eventloop_joystick (void) {
 			return 2;
 			break;
 #ifdef	JSSWITCHES  // channels 9 - 16 as switches
+// Limit Buttons to lower 12-bits. High 4-bits for Hat. 
 		case SDL_JOYBUTTONDOWN:
-			if (event.jbutton.button < JSSWITCHES) { // newer Taranis software can send 24 buttons - we use 16
+			if (event.jbutton.button < 12) { // newer Taranis software can send 24 buttons - we use 16
 				rcData[8] |= 1 << event.jbutton.button;
 			}
 			return 5;
 			break;
 		case SDL_JOYBUTTONUP:
-			if (event.jbutton.button < JSSWITCHES) {
+			if (event.jbutton.button < 12) {
 				rcData[8] &= ~(1 << event.jbutton.button);
 			}
 			return 4;
+			break;
+		case SDL_JOYHATMOTION:
+			if (event.jhat.hat == 0) {
+				rcData[8] &= 0x0FFF; // Clear Current Hat
+				rcData[8] |= event.jhat.value << 12; // Write new Hat
+			}
+			return 5;
 			break;
 #endif
 			case SDL_QUIT:
