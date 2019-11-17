@@ -243,7 +243,9 @@ function rx_function {
 	#START AUDIO AND REMOTE SETTINGS
 		if [ $IsFirstTime -eq 0 ]; then
 			if [ "$IsAudioTransferEnabled" == "1" ]; then
-			      echo "AUDIO ENABLED..."
+				echo "AUDIO ENABLED..."
+				/home/pi/RemoteSettings/Ground/AudioCapture.sh &
+				/home/pi/RemoteSettings/Ground/AudioTX.sh &
 				amixer cset numid=3 $DefaultAudioOut
 				/home/pi/RemoteSettings/Ground/AudioPlayback.sh &
 				/home/pi/RemoteSettings/Ground/RxAudio.sh &
